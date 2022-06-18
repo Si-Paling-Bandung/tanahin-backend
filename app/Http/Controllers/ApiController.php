@@ -361,7 +361,7 @@ class ApiController extends Controller
             ], 401);
         }
 
-        // save public access token to databse
+        // save public access token to database
         $user = User::find($request->user()->id);
         $user->brick_user_access_token = $response['data'];
         $user->save();
