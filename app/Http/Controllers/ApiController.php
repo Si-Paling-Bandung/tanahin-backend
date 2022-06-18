@@ -419,6 +419,69 @@ class ApiController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'Successfully Updated, Please Contact Admin If You Have Any Problem',
+            'profiling' => $user->profiling,
+        ], 200);
+    }
+
+    public function brick_update(Request $request)
+    {
+        $user = User::find($request->user()->id);
+
+        $response = Http::withToken(
+            $user->brick_user_access_token
+        )->get(
+            env('BRICK_URL') . '/v1/account/list'
+        );
+
+        $account_id = $response['data'][0]['accountId'];
+        $user->brick_account_id = $account_id;
+        $user->save();
+
+        $response = Http::withToken(
+            $user->brick_user_access_token
+        )->get(
+            env('BRICK_URL') . '/v1/transaction/list',
+            [
+                'from' => '2022-04-01',
+                'to' => '2022-06-30',
+            ]
+        );
+
+        $lastest_transaction = LastestTransaction::where('id_user', $user->id)->first();
+        if (!$lastest_transaction) {
+            $lastest_transaction = new LastestTransaction;
+            $lastest_transaction->id_user = $user->id;
+            $lastest_transaction->transaction = $response->json();
+            $lastest_transaction->save();
+        } elseif ($lastest_transaction) {
+            $lastest_transaction->transaction = $response->json();
+            $lastest_transaction->save();
+        }
+
+        // processing data
+        $data = $response;
+        $collection = collect(json_decode($data, true));
+        $data = $collection['data'];
+        $income = 0;
+        $expense = 0;
+        foreach ($data as $dt) {
+            $object = json_decode(json_encode($dt), FALSE);
+            if ($object->direction == 'in') {
+                $income += $object->amount;
+            } else {
+                $expense += $object->amount;
+            }
+        }
+        $income *= 2;
+
+        $user->profiling = $income - $expense;
+        $user->save();
+
+        // return success
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Successfully Updated, Please Contact Admin If You Have Any Problem',
+            'profiling' => $user->profiling,
         ], 200);
     }
 }

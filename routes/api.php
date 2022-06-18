@@ -74,6 +74,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // ====================================== Brick ======================================
     Route::post('/brick', [ApiController::class, 'brick_login']);
     Route::post('/brick/confirmation', [ApiController::class, 'brick_confirmation']);
+    Route::post('/brick/update', [ApiController::class, 'brick_update']);
 
     // ==================================== Profile ======================================
     Route::get('/profile', [AuthController::class, 'profile']);
