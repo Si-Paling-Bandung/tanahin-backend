@@ -33,10 +33,11 @@ use App\Models\Rating;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
-
+use Illuminate\Support\Facades\Http;
 
 
 use App\Models\Education;
+use App\Models\LastestTransaction;
 use App\Models\Product;
 use App\Models\ProductReview;
 use App\Models\ProductVariant;
@@ -282,6 +283,144 @@ class ApiController extends Controller
                 'trending_campaign ' => $trending_campaign,
                 'campaign_baru' => $campaign_baru,
             ]
+        ], 200);
+    }
+
+    // ================================================================================================
+
+    public function brick_login(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'phone_number' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'failed',
+                'message' => $validator->errors(),
+            ], 400);
+        }
+
+        $response = Http::withToken(
+            env('BIRCK_PUBLIC_ACCESS_TOKEN')
+        )->post(
+            env('BRICK_URL') . '/v1/auth',
+            [
+                'institution_id' => 11,
+                'username' => $request->phone_number,
+            ]
+        );
+
+        // if data exist return data if not return false
+        if (!$response->successful()) {
+            return response()->json([
+                'message' => 'Please Contact Admin',
+                'brick_message' => $response->json(),
+            ], 401);
+        }
+
+        // return response
+        return $response->json();
+    }
+
+    public function brick_confirmation(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'username' => 'required',
+            'uniqueId' => 'required',
+            'sessionId' => 'required',
+            'otpToken' => 'required',
+            'otp' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'failed',
+                'message' => $validator->errors(),
+            ], 400);
+        }
+
+        $response = Http::withToken(
+            env('BIRCK_PUBLIC_ACCESS_TOKEN')
+        )->post(
+            env('BRICK_URL') . '/v1/auth/gopay',
+            [
+                'username' => $request->username,
+                'uniqueId' => $request->uniqueId,
+                'sessionId' => $request->sessionId,
+                'otpToken' => $request->otpToken,
+                'otp' => $request->otp,
+            ]
+        );
+
+        // if data exist return data if not return false
+        if (!$response->successful()) {
+            return response()->json([
+                'message' => 'Wrong Otp! Please Try Again',
+                'brick_message' => $response->json(),
+            ], 401);
+        }
+
+        // save public access token to databse
+        $user = User::find($request->user()->id);
+        $user->brick_user_access_token = $response['data'];
+        $user->save();
+
+        $response = Http::withToken(
+            $user->brick_user_access_token
+        )->get(
+            env('BRICK_URL') . '/v1/account/list'
+        );
+
+        $account_id = $response['data'][0]['accountId'];
+        $user->brick_account_id = $account_id;
+        $user->save();
+
+        $response = Http::withToken(
+            $user->brick_user_access_token
+        )->get(
+            env('BRICK_URL') . '/v1/transaction/list',
+            [
+                'from' => '2022-04-01',
+                'to' => '2022-06-30',
+            ]
+        );
+
+        $lastest_transaction = LastestTransaction::where('id_user', $user->id)->first();
+        if (!$lastest_transaction) {
+            $lastest_transaction = new LastestTransaction;
+            $lastest_transaction->id_user = $user->id;
+            $lastest_transaction->transaction = $response;
+            $lastest_transaction->save();
+        } elseif ($lastest_transaction) {
+            $lastest_transaction->transaction = $response;
+            $lastest_transaction->save();
+        }
+
+        // processing data
+        $collection = collect(json_decode($response, true));
+        $data = $collection['data'];
+        $income = 0;
+        $expense = 0;
+        foreach ($data as $dt) {
+            $object = json_decode(json_encode($dt), FALSE);
+            if ($object->direction == 'in') {
+                $income += $object->amount;
+            } else {
+                $expense += $object->amount;
+            }
+        }
+        $income *= 2;
+
+        $user->profiling = $income - $expense;
+        $user->save();
+
+        return $user->profiling;
+
+        // return success
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Successfully Updated, Please Contact Admin If You Have Any Problem',
         ], 200);
     }
 }

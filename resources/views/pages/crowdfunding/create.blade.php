@@ -21,6 +21,12 @@
         </div>
     @endif
 
+    @if (session('status'))
+        <div class="alert alert-success border-left-success" role="alert">
+            {{ session('status') }}
+        </div>
+    @endif
+
     @if ($errors->any())
         <div class="alert alert-danger border-left-danger" role="alert">
             <ul class="pl-4 my-2">
@@ -31,7 +37,8 @@
         </div>
     @endif
 
-    <form method="POST" action="{{ route('crowdfunding.create.process') }}" autocomplete="off" enctype="multipart/form-data">
+    <form method="POST" action="{{ route('crowdfunding.create.process') }}" autocomplete="off"
+        enctype="multipart/form-data">
         @csrf
         <div class="row">
 
@@ -50,33 +57,34 @@
                                         <label class="form-control-label" for="title">{{ __('Title') }}<span
                                                 class="small text-danger">*</span></label>
                                         <input type="text" class="form-control form-control-Product" title="title"
-                                            placeholder="{{ __('title') }}" value="{{ old('title') }}" name="title" required
-                                            autofocus>
+                                            placeholder="{{ __('title') }}" value="{{ old('title') }}" name="title"
+                                            required autofocus>
                                     </div>
 
                                     <div class="form-group">
                                         <label class="form-control-label" for="address">{{ __('Address') }}<span
                                                 class="small text-danger">*</span></label>
-                                        <textarea class="form-control form-control-Product" title="address" placeholder="{{ __('address') }}" name="address" required
-                                            rows="3">{{ old('address') }}</textarea>
+                                        <textarea class="form-control form-control-Product" title="address" placeholder="{{ __('address') }}" name="address"
+                                            required rows="3">{{ old('address') }}</textarea>
                                     </div>
 
                                     <div class="form-group">
                                         <label class="form-control-label" for="description">{{ __('Description') }}<span
                                                 class="small text-danger">*</span></label>
-                                        <textarea class="form-control form-control-Product" title="description" placeholder="{{ __('description') }}" name="description" required
-                                            rows="7">{{ old('description') }}</textarea>
+                                        <textarea class="form-control form-control-Product" title="description" placeholder="{{ __('description') }}"
+                                            name="description" required rows="7">{{ old('description') }}</textarea>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="type" class="form-control-label">{{ __('Category') }}<span
-                                            class="small text-danger">*</span></label>
+                                                class="small text-danger">*</span></label>
                                         <select name="category" id="category"
                                             class="form-control @error('category') is-invalid @enderror">
                                             <option value="">{{ __('Select Category') }}</option>
                                             @foreach ($categories as $category)
                                                 <option value="{{ $category->id }}"
-                                                    {{ old('category') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
+                                                    {{ old('category') == $category->id ? 'selected' : '' }}>
+                                                    {{ $category->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -84,8 +92,8 @@
                                     <div class="form-group">
                                         <label class="form-control-label" for="description">{{ __('Suitable For') }}<span
                                                 class="small text-danger">*</span></label>
-                                        <textarea class="form-control form-control-Product" title="suitable" placeholder="{{ __('suitable') }}" name="suitable" required
-                                            rows="7">{{ old('suitable') }}</textarea>
+                                        <textarea class="form-control form-control-Product" title="suitable" placeholder="{{ __('suitable') }}"
+                                            name="suitable" required rows="7">{{ old('suitable') }}</textarea>
                                     </div>
 
                                     <div class="form-group">
@@ -98,22 +106,20 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="form-control-label"
-                                            for="discounted_price">{{ __('Discounted Price') }}<span
+                                        <label class="form-control-label" for="deadline">{{ __('Deadline') }}<span
                                                 class="small text-danger">*</span></label>
-                                        <input type="number" class="form-control form-control-Product"
-                                            title="discounted_price" placeholder="{{ __('discounted_price') }}"
-                                            value="{{ old('discounted_price') }}" name="discounted_price" required
-                                            autofocus>
-
+                                        <input type="datetime-local" class="form-control form-control-Product"
+                                            title="deadline" placeholder="{{ __('deadline') }}"
+                                            value="{{ old('deadline') }}" name="deadline" required autofocus>
                                     </div>
+
 
                                     <div class="form-group">
                                         <label class="form-control-label" for="photo">{{ __('Photo') }}<span
                                                 class="small text-danger">*</span></label>
                                         <input type="file" class="form-control form-control-Product" title="photo"
-                                            placeholder="{{ __('photo') }}" value="{{ old('photo') }}" name="photo"
-                                            required autofocus>
+                                            placeholder="{{ __('photo') }}" value="{{ old('photo') }}"
+                                            name="photo" required autofocus>
                                     </div>
 
                                 </div>
@@ -138,5 +144,8 @@
         </div>
 
     </form>
-
+    <script>
+        var today = new Date().toISOString().slice(0, 16);
+        document.getElementsByName("deadline")[0].min = today;
+    </script>
 @endsection

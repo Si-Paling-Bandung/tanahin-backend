@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\LastestTransaction;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,34 @@ Route::get('/', function () {
 });
 
 // =============================== H A P U S ================================
+use Illuminate\Http\File;
+use App\User;
+
+// Route::get('/userProfile', function () {
+
+//     $user = User::find(1);
+
+//     $xmlString = LastestTransaction::first()->transaction;
+
+//     $collection = collect(json_decode($xmlString, true));
+//     $data = $collection['data'];
+//     $income = 0;
+//     $expense = 0;
+//     foreach ($data as $dt) {
+//         $object = json_decode(json_encode($dt), FALSE);
+//         if ($object->direction == 'in') {
+//             $income += $object->amount;
+//         } else {
+//             $expense += $object->amount;
+//         }
+//     }
+//     $income *= 2;
+
+//     $user->profiling = $income - $expense;
+//     $user->save();
+
+//     return $user->profiling;
+// });
 
 // ============================================================================
 // ================================ L O G I N =================================

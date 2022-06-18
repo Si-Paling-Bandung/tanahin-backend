@@ -20,10 +20,16 @@ class CreateProductsTable extends Migration
             $table->string('type');
             $table->string('title');
             $table->text('address');
+            $table->text('area');
             $table->text('description');
             $table->text('suitable');
             $table->text('price');
-            $table->text('discounted_price');
+            $table->text('price_meter');
+            $table->text('discounted_price')->nullable();
+            $table->timestamp('auction_deadline')->nullable();
+            $table->timestamp('instalment_pay')->nullable();
+            $table->timestamp('dp')->nullable();
+            $table->timestamp('tenor')->nullable();
             $table->text('photo');
             $table->string('status')->default('publish');
             $table->timestamps();

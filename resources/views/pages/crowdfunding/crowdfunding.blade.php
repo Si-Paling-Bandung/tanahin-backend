@@ -15,8 +15,17 @@
                         data: 'photo',
                         name: 'photo'
                     }, {
+                        data: 'category',
+                        name: 'category'
+                    }, {
                         data: 'title',
                         name: 'title'
+                    }, {
+                        data: 'lastest_bid',
+                        name: 'lastest_bid'
+                    }, {
+                        data: 'deadline',
+                        name: 'deadline'
                     },
                     {
                         data: 'action',
@@ -66,6 +75,12 @@
         </div>
     @endif
 
+    @if (session('status'))
+        <div class="alert alert-success border-left-success" role="alert">
+            {{ session('status') }}
+        </div>
+    @endif
+
     @if ($errors->any())
         <div class="alert alert-danger border-left-danger" role="alert">
             <ul class="pl-4 my-2">
@@ -92,7 +107,10 @@
                         <thead>
                             <tr>
                                 <th>Auction Post Cover Image</th>
+                                <th>Category</th>
                                 <th>Auction Post Title</th>
+                                <th>Lastest Bid</th>
+                                <th>Deadline</th>
                                 <th width="200px">Action</th>
                             </tr>
                         </thead>

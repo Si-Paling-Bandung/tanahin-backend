@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use App\Models\ProjectFunding;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use DataTables;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\ProductBid;
 
 class ProjectFundingController extends Controller
 {
@@ -19,14 +21,20 @@ class ProjectFundingController extends Controller
     public function index(Request $request, $id)
     {
         if ($request->ajax()) {
-            $data = ProjectFunding::where('id_project', $id)->get();
+            $data = ProductBid::where('id_product', $id)->get();
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($data) {
-                    $button = '<a data-toggle="confirmation" data-singleton="true" data-popout="true" href="' . route('crowdfunding.funding.delete', [$data->id_project, $data->id]) . '" type="button" name="delete" id="' . $data->id . '" class="delete btn btn-danger btn-sm"' . "onclick='return'" . '>Delete</a>';
+                    $button = '<a data-toggle="confirmation" data-singleton="true" data-popout="true" href="' . route('crowdfunding.funding.delete', [$data->id_product, $data->id]) . '" type="button" name="delete" id="' . $data->id . '" class="delete btn btn-danger btn-sm"' . "onclick='return'" . '>Delete</a>';
                     return $button;
+                })->addColumn('user', function ($data) {
+                    return User::find($data->id_user)->name;
                 })
-                ->rawColumns(['action'])
+                ->addColumn('price', function ($data) {
+                    $hasil_rupiah = "Rp " . number_format($data->amount, 2, ',', '.');
+                    return $hasil_rupiah;
+                })
+                ->rawColumns(['action','user','price'])
                 ->make(true);
         }
 
@@ -41,7 +49,8 @@ class ProjectFundingController extends Controller
     public function create_view(Request $request, $id)
     {
         $data_user = User::all();
-        return view('pages.crowdfunding.funding-create', compact('id', 'data_user'));
+        $data_product = Product::find($id);
+        return view('pages.crowdfunding.funding-create', compact('id', 'data_user','data_product'));
     }
 
     /**
@@ -53,18 +62,16 @@ class ProjectFundingController extends Controller
     {
         $request->validate([
             'amount' => 'required',
-            'notes' => 'required',
             'user' => 'required',
         ]);
 
-        $project_funding = new ProjectFunding();
-        $project_funding->id_project = $id;
-        $project_funding->id_user = $request->user;
-        $project_funding->amount = $request->amount;
-        $project_funding->notes = $request->notes;
-        $project_funding->save();
+        $product_bid = new ProductBid();
+        $product_bid->id_product = $id;
+        $product_bid->id_user = $request->user;
+        $product_bid->amount = $request->amount;
+        $product_bid->save();
 
-        return redirect()->route('crowdfunding.funding', compact('id'))->withSuccess('Crowd Funding created successfully.');
+        return redirect()->route('crowdfunding.funding', compact('id'))->withSuccess('Auction Bid created successfully.');
     }
 
     /**
@@ -75,10 +82,10 @@ class ProjectFundingController extends Controller
      */
     public function delete($id_product_variant, $id)
     {
-        $project_funding = ProjectFunding::find($id);
+        $project_funding = ProductBid::find($id);
         $project_funding->delete();
 
-        return redirect()->route('crowdfunding.funding', $id_product_variant)->withSuccess('Crowd Funding deleted successfully.');
+        return redirect()->route('crowdfunding.funding', $id_product_variant)->withSuccess('Auction Bid deleted successfully.');
     }
 
     /**

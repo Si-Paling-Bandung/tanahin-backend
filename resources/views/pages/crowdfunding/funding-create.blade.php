@@ -55,13 +55,6 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="form-control-label" for="notes">{{ __('Notes') }}<span
-                                                class="small text-danger">*</span></label>
-                                        <input type="text" class="form-control form-control-Product" title="notes"
-                                            placeholder="{{ __('notes') }}" name="notes" required autofocus>
-                                    </div>
-
-                                    <div class="form-group">
                                         <label for="user"
                                             class="form-control-label">{{ __('User') }}<span
                                             class="small text-danger">*</span></label>

@@ -30,7 +30,10 @@ class CreateUsersTable extends Migration
             $table->string('height')->nullable();
             $table->string('weight')->nullable();
             $table->string('skin_color')->nullable();
-            $table->string('point')->default(0);
+            $table->string('profiling')->default(0);
+            $table->string('brick_username')->nullable();
+            $table->string('brick_user_access_token')->nullable();
+            $table->string('brick_account_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

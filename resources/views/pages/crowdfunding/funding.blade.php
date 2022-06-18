@@ -12,12 +12,12 @@
                     url: "{{ route('crowdfunding.funding', $id) }}",
                 },
                 columns: [{
-                        data: 'amount',
-                        name: 'amount'
+                        data: 'price',
+                        name: 'price'
                     },
                     {
-                        data: 'notes',
-                        name: 'notes'
+                        data: 'user',
+                        name: 'user'
                     },
                     {
                         data: 'action',
@@ -53,7 +53,7 @@
         <h1 class="h3 mb-4 text-gray-800">{{ __('Auction Management') }}</h1>
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a href="{{ route('crowdfunding.funding.create', $id) }}" class="btn btn-dark border-0">New Funding</a>
+                <a href="{{ route('crowdfunding.funding.create', $id) }}" class="btn btn-dark border-0">New Bid</a>
             </li>
         </ul>
     </nav>
@@ -92,8 +92,8 @@
                     <table class="table table-bordered data-table">
                         <thead>
                             <tr>
-                                <th>Funding Amount</th>
-                                <th>Funding Notes</th>
+                                <th>Bid Amount</th>
+                                <th>User</th>
                                 <th width="200px">Action</th>
                             </tr>
                         </thead>

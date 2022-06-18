@@ -71,14 +71,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/tips/{id}', [ApiController::class, 'detail_tips']);
 
 
-
-
-
-
-
-
-
-
+    // ====================================== Brick ======================================
+    Route::post('/brick', [ApiController::class, 'brick_login']);
+    Route::post('/brick/confirmation', [ApiController::class, 'brick_confirmation']);
 
     // ==================================== Profile ======================================
     Route::get('/profile', [AuthController::class, 'profile']);
