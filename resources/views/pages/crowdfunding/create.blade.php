@@ -6,11 +6,11 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
 @endpush
 @extends('layouts.admin')
-@section('title', 'Create Crowdfunding Post')
+@section('title', 'Create Auction Post')
 
 @section('main-content')
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800">{{ __('Create Crowdfunding Post') }}</h1>
+    <h1 class="h3 mb-4 text-gray-800">{{ __('Create Auction Post') }}</h1>
 
     @if (session('success'))
         <div class="alert alert-success border-left-success alert-dismissible fade show" role="alert">
@@ -45,76 +45,75 @@
 
                             <div class="row">
                                 <div class="col-lg-12">
+
                                     <div class="form-group">
                                         <label class="form-control-label" for="title">{{ __('Title') }}<span
                                                 class="small text-danger">*</span></label>
                                         <input type="text" class="form-control form-control-Product" title="title"
-                                            placeholder="{{ __('title') }}" value="{{ old('title') }}" name="title"
-                                            required autofocus>
+                                            placeholder="{{ __('title') }}" value="{{ old('title') }}" name="title" required
+                                            autofocus>
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="form-control-label" for="content">{{ __('Content') }}<span
+                                        <label class="form-control-label" for="address">{{ __('Address') }}<span
                                                 class="small text-danger">*</span></label>
-                                        <textarea class="form-control form-control-Product" title="content" placeholder="{{ __('content') }}" name="content"
-                                            required autofocus rows="20">{{ old('content') }}</textarea>
+                                        <textarea class="form-control form-control-Product" title="address" placeholder="{{ __('address') }}" name="address" required
+                                            rows="3">{{ old('address') }}</textarea>
                                     </div>
 
-
                                     <div class="form-group">
-                                        <label class="form-control-label" for="target">{{ __('Target Funding') }}<span
+                                        <label class="form-control-label" for="description">{{ __('Description') }}<span
                                                 class="small text-danger">*</span></label>
-                                        <input type="number" class="form-control form-control-Product" target="target"
-                                            placeholder="{{ __('target') }}" value="{{ old('target') }}" name="target"
-                                            required autofocus>
+                                        <textarea class="form-control form-control-Product" title="description" placeholder="{{ __('description') }}" name="description" required
+                                            rows="7">{{ old('description') }}</textarea>
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="form-control-label" for="lat">{{ __('Lat') }}<span
-                                                class="small text-danger">*</span></label>
-                                        <input type="text" class="form-control form-control-Product" title="lat"
-                                            placeholder="{{ __('lat') }}" name="lat" required autofocus>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label class="form-control-label" for="lang">{{ __('Lang') }}<span
-                                                class="small text-danger">*</span></label>
-                                        <input type="text" class="form-control form-control-Product" title="lang"
-                                            placeholder="{{ __('lang') }}" name="lang" required autofocus>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label class="form-control-label" for="location">{{ __('Location') }}<span
-                                                class="small text-danger">*</span></label>
-                                        <input type="text" class="form-control form-control-Product" title="location"
-                                            placeholder="{{ __('location') }}" name="location" required autofocus>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label class="form-control-label" for="cover_image">{{ __('Cover Image') }}<span
-                                                class="small text-danger">*</span></label>
-                                        <input type="file" class="form-control form-control-Product" title="cover_image"
-                                            placeholder="{{ __('cover_image') }}" value="{{ old('cover_image') }}"
-                                            name="cover_image" required autofocus>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="project_category"
-                                            class="form-control-label">{{ __('Category') }}<span
+                                        <label for="type" class="form-control-label">{{ __('Category') }}<span
                                             class="small text-danger">*</span></label>
-                                        <select name="project_category" id="instance"
-                                            class="form-control @error('project_category') is-invalid @enderror">
-                                            @foreach ($data_category as $it)
-                                                <option value="{{ $it->id }}">{{ $it->name }}</option>
+                                        <select name="category" id="category"
+                                            class="form-control @error('category') is-invalid @enderror">
+                                            <option value="">{{ __('Select Category') }}</option>
+                                            @foreach ($categories as $category)
+                                                <option value="{{ $category->id }}"
+                                                    {{ old('category') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="form-control-label" for="attachment">{{ __('Attachment') }}</label>
-                                        <input type="file" class="form-control form-control-Product" title="attachment"
-                                            placeholder="{{ __('attachment') }}" value="{{ old('attachment') }}"
-                                            name="attachment" autofocus>
+                                        <label class="form-control-label" for="description">{{ __('Suitable For') }}<span
+                                                class="small text-danger">*</span></label>
+                                        <textarea class="form-control form-control-Product" title="suitable" placeholder="{{ __('suitable') }}" name="suitable" required
+                                            rows="7">{{ old('suitable') }}</textarea>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="price">{{ __('Price') }}<span
+                                                class="small text-danger">*</span></label>
+                                        <input type="number" class="form-control form-control-Product" title="price"
+                                            placeholder="{{ __('price') }}" value="{{ old('price') }}" name="price"
+                                            required autofocus>
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-control-label"
+                                            for="discounted_price">{{ __('Discounted Price') }}<span
+                                                class="small text-danger">*</span></label>
+                                        <input type="number" class="form-control form-control-Product"
+                                            title="discounted_price" placeholder="{{ __('discounted_price') }}"
+                                            value="{{ old('discounted_price') }}" name="discounted_price" required
+                                            autofocus>
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="photo">{{ __('Photo') }}<span
+                                                class="small text-danger">*</span></label>
+                                        <input type="file" class="form-control form-control-Product" title="photo"
+                                            placeholder="{{ __('photo') }}" value="{{ old('photo') }}" name="photo"
+                                            required autofocus>
                                     </div>
 
                                 </div>
@@ -125,7 +124,7 @@
                         <div class="pl-lg-4">
                             <div class="row">
                                 <div class="col text-center">
-                                    <button type="submit" class="btn btn-primary">{{ __('Create') }}</button>
+                                    <button type="submit" class="btn btn-success">{{ __('Create') }}</button>
                                 </div>
                             </div>
                         </div>

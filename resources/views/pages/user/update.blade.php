@@ -97,7 +97,7 @@
                         <div class="pl-lg-4">
                             <div class="row">
                                 <div class="col text-center">
-                                    <button type="submit" class="btn btn-primary">{{ __('Update User') }}</button>
+                                    <button type="submit" class="btn btn-success">{{ __('Update User') }}</button>
                                 </div>
                             </div>
                         </div>
@@ -154,7 +154,7 @@
                         <div class="pl-lg-4">
                             <div class="row">
                                 <div class="col text-center">
-                                    <button type="submit" class="btn btn-primary">{{ __('Change Password') }}</button>
+                                    <button type="submit" class="btn btn-success">{{ __('Change Password') }}</button>
                                 </div>
                             </div>
                         </div>

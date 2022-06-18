@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
-use App\Models\ProjectCategory;
+use App\Models\Product;
+use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use DataTables;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Store;
 
 class ProjectController extends Controller
 {
@@ -19,15 +21,15 @@ class ProjectController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Project::all();
+            $data = Product::where('type','lelang')->get();
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($data) {
-                    $button = '<a href="' . route('crowdfunding.funding', $data->id) . '" type="button" name="edit" id="' . $data->id . '" class="edit btn btn-primary btn-sm">Add Funding</a>';
+                    $button = '<a href="' . route('crowdfunding.funding', $data->id) . '" type="button" name="edit" id="' . $data->id . '" class="edit btn btn-success btn-sm">Add Funding</a>';
                     $button .= '&nbsp;&nbsp;&nbsp;<a data-toggle="confirmation" data-singleton="true" data-popout="true" href="' . route('crowdfunding.delete', $data->id) . '" type="button" name="delete" id="' . $data->id . '" class="delete btn btn-danger btn-sm"' . "onclick='return'" . '>Delete</a>';
                     return $button;
                 })->addColumn('photo', function ($data) {
-                    return '<img src="' . Storage::url($data->cover_image) . '" width="100px" height="100px" />';
+                    return '<img src="' . Storage::url($data->photo) . '" width="100px" height="100px" />';
                 })
                 ->rawColumns(['action', 'photo'])
                 ->make(true);
@@ -43,8 +45,8 @@ class ProjectController extends Controller
      */
     public function create_view()
     {
-        $data_category = \App\Models\ProjectCategory::all();
-        return view('pages.crowdfunding.create', compact('data_category'));
+        $categories = ProductCategory::all();
+        return view('pages.crowdfunding.create', compact('categories'));
     }
 
     /**
@@ -55,35 +57,30 @@ class ProjectController extends Controller
     public function create_process(Request $request)
     {
         $request->validate([
-            'project_category' => 'required',
-            'cover_image' => 'required',
             'title' => 'required',
-            'content'  => 'required',
-            'target'  => 'required',
-            'lat'  => 'required',
-            'lang'  => 'required',
-            'location'  => 'required',
-            'attachment'  => '',
+            'address' => 'required',
+            'description' => 'required',
+            'category' => 'required',
+            'suitable'  => 'required',
+            'price'  => 'required',
+            'discounted_price'  => 'required',
+            'photo'  => 'required',
         ]);
 
-        $education = new Project();
-        $education->id_user = Auth::user()->id;
-        $education->id_project_category  = $request->project_category;
-        $education->cover_image = Storage::disk('public')->put('education', $request->file('cover_image'));
-        $education->title = $request->title;
-        $education->content = $request->content;
-        $education->target = $request->target;
-        $education->lat = $request->lat;
-        $education->lang = $request->lang;
-        $education->location = $request->location;
-        if($request->hasFile('attachment')){
-            $education->attachment = Storage::disk('public')->put('education', $request->file('attachment'));
-        }
-        $education->attachment = $request->attachment;
-        $education->status = 'publish';
-        $education->save();
+        $product = new Product();
+        $product->id_store = Store::where('id_user', Auth::user()->id)->first()->id;
+        $product->type = "lelang";
+        $product->title = $request->title;
+        $product->address = $request->address;
+        $product->description = $request->description;
+        $product->id_category = $request->category;
+        $product->suitable = $request->suitable;
+        $product->price = $request->price;
+        $product->discounted_price = $request->discounted_price;
+        $product->photo = Storage::disk('public')->put('product', $request->file('photo'));
+        $product->save();
 
-        return redirect()->route('crowdfunding')->withSuccess('Crowd Funding Post created successfully.');
+        return redirect()->route('crowdfunding')->withSuccess('Auction Post created successfully.');
     }
 
     /**
@@ -94,10 +91,10 @@ class ProjectController extends Controller
      */
     public function delete($id)
     {
-        $project = Project::find($id);
-        $project->delete();
+        $product = Product::find($id);
+        $product->delete();
 
-        return redirect()->route('crowdfunding')->withSuccess('Crowd Funding Post deleted successfully.');
+        return redirect()->route('crowdfunding')->withSuccess('Auction Post deleted successfully.');
     }
 
     /**

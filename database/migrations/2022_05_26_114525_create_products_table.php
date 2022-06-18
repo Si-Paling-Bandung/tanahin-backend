@@ -16,10 +16,15 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_store');
-            $table->unsignedBigInteger('id_material');
-            $table->string('title');
-            $table->text('description');
+            $table->unsignedBigInteger('id_category');
             $table->string('type');
+            $table->string('title');
+            $table->text('address');
+            $table->text('description');
+            $table->text('suitable');
+            $table->text('price');
+            $table->text('discounted_price');
+            $table->text('photo');
             $table->string('status')->default('publish');
             $table->timestamps();
             $table->softDeletes();
@@ -29,9 +34,9 @@ class CreateProductsTable extends Migration
                 ->on('stores')
                 ->onDelete('cascade')->onUpdate('cascade');
 
-            $table->foreign('id_material')
+            $table->foreign('id_category')
                 ->references('id')
-                ->on('materials')
+                ->on('product_categories')
                 ->onDelete('cascade')->onUpdate('cascade');
         });
     }

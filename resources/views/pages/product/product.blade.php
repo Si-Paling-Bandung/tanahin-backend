@@ -12,11 +12,17 @@
                     url: "{{ route('product') }}",
                 },
                 columns: [{
+                        data: 'photo',
+                        name: 'photo'
+                    }, {
+                        data: 'category',
+                        name: 'category'
+                    }, {
                         data: 'title',
                         name: 'title'
                     }, {
-                        data: 'variant',
-                        name: 'variant'
+                        data: 'price',
+                        name: 'price'
                     },
                     {
                         data: 'action',
@@ -83,7 +89,7 @@
             <div class="card shadow mb-4">
 
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Products</h6>
+                    <h6 class="m-0 font-weight-bold text-success">Products</h6>
                 </div>
 
                 <div class="card-body">
@@ -91,8 +97,10 @@
                     <table class="table table-bordered data-table">
                         <thead>
                             <tr>
+                                <th>Photo</th>
+                                <th>Category</th>
                                 <th>Name</th>
-                                <th>Variant</th>
+                                <th>Price</th>
                                 <th width="200px">Action</th>
                             </tr>
                         </thead>

@@ -16,31 +16,13 @@ class ProductCategorySeeder extends Seeder
     {
         $product_category = [
             [
-                'name' => 'Baju',
+                'name' => 'For Living',
             ],
             [
-                'name' => 'Kemeja',
+                'name' => 'For Business',
             ],
             [
-                'name' => 'Kaus',
-            ],
-            [
-                'name' => 'Jubah',
-            ],
-            [
-                'name' => 'Celana',
-            ],
-            [
-                'name' => 'Baju',
-            ],
-            [
-                'name' => 'Rok',
-            ],
-            [
-                'name' => 'Sorjan',
-            ],
-            [
-                'name' => 'Pakaian Dalam',
+                'name' => 'For Planting',
             ],
         ];
 

@@ -44,13 +44,13 @@
 @endpush
 
 @extends('layouts.admin')
-@section('title', 'Crowd Funding Management')
+@section('title', 'Auction Management')
 
 @section('main-content')
     <!-- Page Heading -->
 
     <nav class="navbar navbar-light px-0 py-3">
-        <h1 class="h3 mb-4 text-gray-800">{{ __('Crowd Funding Management') }}</h1>
+        <h1 class="h3 mb-4 text-gray-800">{{ __('Auction Management') }}</h1>
         <ul class="navbar-nav">
             <li class="nav-item">
                 <a href="{{ route('crowdfunding.funding.create', $id) }}" class="btn btn-dark border-0">New Funding</a>
@@ -84,7 +84,7 @@
             <div class="card shadow mb-4">
 
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Crowd Funding Posts</h6>
+                    <h6 class="m-0 font-weight-bold text-success">Auction Posts</h6>
                 </div>
 
                 <div class="card-body">

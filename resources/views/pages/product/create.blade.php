@@ -46,6 +46,16 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="form-group">
+                                        <label for="type" class="form-control-label">{{ __('Type') }}<span
+                                            class="small text-danger">*</span></label>
+                                        <select name="type" id="type"
+                                            class="form-control @error('type') is-invalid @enderror">
+                                            <option value="jual">Jual</option>
+                                            <option value="cicil">Cicil</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
                                         <label class="form-control-label" for="title">{{ __('Title') }}<span
                                                 class="small text-danger">*</span></label>
                                         <input type="text" class="form-control form-control-Product" title="title"
@@ -54,33 +64,65 @@
                                     </div>
 
                                     <div class="form-group">
+                                        <label class="form-control-label" for="address">{{ __('Address') }}<span
+                                                class="small text-danger">*</span></label>
+                                        <textarea class="form-control form-control-Product" title="address" placeholder="{{ __('address') }}" name="address" required
+                                            rows="3">{{ old('address') }}</textarea>
+                                    </div>
+
+                                    <div class="form-group">
                                         <label class="form-control-label" for="description">{{ __('Description') }}<span
                                                 class="small text-danger">*</span></label>
                                         <textarea class="form-control form-control-Product" title="description" placeholder="{{ __('description') }}" name="description" required
-                                            autofocus rows="20">{{ old('description') }}</textarea>
+                                            rows="7">{{ old('description') }}</textarea>
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="type" class="form-control-label">{{ __('Type') }}<span
+                                        <label for="type" class="form-control-label">{{ __('Category') }}<span
                                             class="small text-danger">*</span></label>
-                                        <select name="type" id="type"
-                                            class="form-control @error('type') is-invalid @enderror">
-                                            <option value="baru">Baru</option>
-                                            <option value="bekas">Bekas</option>
-                                            <option value="sewa">Sewa</option>
-                                            <option value="lelang">Lelang</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="material" class="form-control-label">{{ __('Material') }}<span
-                                            class="small text-danger">*</span></label>
-                                        <select name="material" id="instance"
-                                            class="form-control @error('material') is-invalid @enderror">
-                                            @foreach ($data_material as $it)
-                                                <option value="{{ $it->id }}">{{ $it->material_name }}</option>
+                                        <select name="category" id="category"
+                                            class="form-control @error('category') is-invalid @enderror">
+                                            <option value="">{{ __('Select Category') }}</option>
+                                            @foreach ($categories as $category)
+                                                <option value="{{ $category->id }}"
+                                                    {{ old('category') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
                                             @endforeach
                                         </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="description">{{ __('Suitable For') }}<span
+                                                class="small text-danger">*</span></label>
+                                        <textarea class="form-control form-control-Product" title="suitable" placeholder="{{ __('suitable') }}" name="suitable" required
+                                            rows="7">{{ old('suitable') }}</textarea>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="price">{{ __('Price') }}<span
+                                                class="small text-danger">*</span></label>
+                                        <input type="number" class="form-control form-control-Product" title="price"
+                                            placeholder="{{ __('price') }}" value="{{ old('price') }}" name="price"
+                                            required autofocus>
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-control-label"
+                                            for="discounted_price">{{ __('Discounted Price') }}<span
+                                                class="small text-danger">*</span></label>
+                                        <input type="number" class="form-control form-control-Product"
+                                            title="discounted_price" placeholder="{{ __('discounted_price') }}"
+                                            value="{{ old('discounted_price') }}" name="discounted_price" required
+                                            autofocus>
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="photo">{{ __('Photo') }}<span
+                                                class="small text-danger">*</span></label>
+                                        <input type="file" class="form-control form-control-Product" title="photo"
+                                            placeholder="{{ __('photo') }}" value="{{ old('photo') }}" name="photo"
+                                            required autofocus>
                                     </div>
 
                                 </div>
@@ -91,7 +133,7 @@
                         <div class="pl-lg-4">
                             <div class="row">
                                 <div class="col text-center">
-                                    <button type="submit" class="btn btn-primary">{{ __('Create') }}</button>
+                                    <button type="submit" class="btn btn-success">{{ __('Create') }}</button>
                                 </div>
                             </div>
                         </div>

@@ -58,6 +58,23 @@
 
 
             <!-- Trainer / Admin Only -->
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                {{ __('Auction Management') }}
+            </div>
+
+            <!-- Nav Item - Crowdfunding -->
+            <li class="nav-item {{ Nav::isRoute('crowdfunding*') }}">
+                <a class="nav-link" href="{{ route('crowdfunding') }}">
+                    <i class="fas fa-fw fa-hand-rock"></i>
+                    <span>{{ __('Auction') }}</span>
+                </a>
+            </li>
+
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
@@ -103,22 +120,6 @@
                 <a class="nav-link" href="{{ route('education') }}">
                     <i class="fas fa-fw fa-graduation-cap"></i>
                     <span>{{ __('Education') }}</span>
-                </a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                {{ __('Crowdfunding Management') }}
-            </div>
-
-            <!-- Nav Item - Crowdfunding -->
-            <li class="nav-item {{ Nav::isRoute('crowdfunding*') }}">
-                <a class="nav-link" href="{{ route('crowdfunding') }}">
-                    <i class="fas fa-fw fa-hand-rock"></i>
-                    <span>{{ __('Crowdfunding') }}</span>
                 </a>
             </li>
 

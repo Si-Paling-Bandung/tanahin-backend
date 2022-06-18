@@ -125,7 +125,7 @@
                         <div class="pl-lg-4">
                             <div class="row">
                                 <div class="col text-center">
-                                    <button type="submit" class="btn btn-primary">{{ __('Create') }}</button>
+                                    <button type="submit" class="btn btn-success">{{ __('Create') }}</button>
                                 </div>
                             </div>
                         </div>
