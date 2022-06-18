@@ -25,7 +25,7 @@
     <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
 
     <!-- Favicon -->
-    <link href="{{ asset('img/logo.png') }}" rel="icon" type="image/png">
+    <link href="{{ asset('img/logo-polos.png') }}" rel="icon" type="image/png">
 
     @stack('css')
     @stack('third_party_stylesheets')

@@ -21,7 +21,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
     <!-- Favicon -->
-    <link href="{{ asset('img/logo.png') }}" rel="icon" type="image/png">
+    <link href="{{ asset('img/logo-polos.png') }}" rel="icon" type="image/png">
 
 </head>
 
