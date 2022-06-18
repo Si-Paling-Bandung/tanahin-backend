@@ -415,8 +415,6 @@ class ApiController extends Controller
         $user->profiling = $income - $expense;
         $user->save();
 
-        return $user->profiling;
-
         // return success
         return response()->json([
             'status' => 'success',
