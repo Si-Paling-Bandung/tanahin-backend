@@ -110,6 +110,7 @@ class AuthController extends Controller
             'message' => 'You have successfully logged in !',
             'access_token' => $token,
             'token_type' => 'Bearer',
+            'data_user' => $user,
         ], 200);
     }
 
