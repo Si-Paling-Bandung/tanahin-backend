@@ -34,7 +34,7 @@ class ProjectFundingController extends Controller
                     $hasil_rupiah = "Rp " . number_format($data->amount, 2, ',', '.');
                     return $hasil_rupiah;
                 })
-                ->rawColumns(['action','user','price'])
+                ->rawColumns(['action', 'user', 'price'])
                 ->make(true);
         }
 
@@ -50,7 +50,12 @@ class ProjectFundingController extends Controller
     {
         $data_user = User::all();
         $data_product = Product::find($id);
-        return view('pages.crowdfunding.funding-create', compact('id', 'data_user','data_product'));
+        $check_lastest = ProductBid::where('id_product', $id)->orderBy('created_at', 'desc')->first();
+        $min_bid = 0;
+        if (!$check_lastest == null) {
+            $min_bid = $check_lastest->amount;
+        }
+        return view('pages.crowdfunding.funding-create', compact('id', 'data_user', 'data_product', 'min_bid'));
     }
 
     /**
@@ -65,9 +70,18 @@ class ProjectFundingController extends Controller
             'user' => 'required',
         ]);
 
+        $check_lastest = ProductBid::where('id_product', $id)->orderBy('created_at', 'desc')->first();
+        $min_bid = 0;
+        if (!$check_lastest == null) {
+            $min_bid = $check_lastest->amount;
+        }
+
         $product_bid = new ProductBid();
         $product_bid->id_product = $id;
         $product_bid->id_user = $request->user;
+        if ($request->amount <= $min_bid) {
+            return redirect()->back()->with('error', 'Bid must be greater than ' . $min_bid);
+        }
         $product_bid->amount = $request->amount;
         $product_bid->save();
 

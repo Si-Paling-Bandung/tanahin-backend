@@ -20,7 +20,7 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Product::where('type','jual')->get();
+            $data = Product::where('type', 'jual')->get();
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($data) {
@@ -121,7 +121,7 @@ class ProductController extends Controller
     public function index_installment(Request $request)
     {
         if ($request->ajax()) {
-            $data = Product::where('type','cicilan')->get();
+            $data = Product::where('type', 'cicilan')->get();
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($data) {
@@ -131,6 +131,16 @@ class ProductController extends Controller
                 ->addColumn('price', function ($data) {
                     $hasil_rupiah = "Rp " . number_format($data->price, 2, ',', '.');
                     return $hasil_rupiah;
+                })
+                ->addColumn('monthly_pay', function ($data) {
+                    $monthly_pay = "Rp " . number_format($data->installment_pay, 2, ',', '.');
+                    return $monthly_pay;
+                })
+                ->addColumn('front_payment', function ($data) {
+                    return $data->dp . "%";
+                })
+                ->addColumn('tenor_month', function ($data) {
+                    return $data->tenor . " Month - " . ($data->tenor / 12) . " Year";
                 })
                 ->addColumn('photo', function ($data) {
                     return '<img src="' . Storage::url($data->photo) . '" width="100px" height="100px" />';
@@ -171,7 +181,8 @@ class ProductController extends Controller
             'category' => 'required',
             'suitable'  => 'required',
             'price'  => 'required',
-            'discounted_price'  => 'required',
+            'dp'  => 'required',
+            'tenor'  => 'required',
             'photo'  => 'required',
         ]);
 
@@ -185,10 +196,17 @@ class ProductController extends Controller
         $product->id_category = $request->category;
         $product->suitable = $request->suitable;
         $product->price = $request->price;
-        $product->discounted_price = $request->discounted_price;
+        $product->dp = $request->dp;
+        $product->tenor = $request->tenor;
         $product->photo = Storage::disk('public')->put('product', $request->file('photo'));
 
         $product->price_meter = (int)$request->price / (int)$request->area;
+
+        $price_mines_dp = (int)$request->price - ((int)$request->price * ((int)$request->dp / 100));
+        $price_with_fee = $price_mines_dp + (($price_mines_dp * 0.01));
+        $bank_interest = 0.05;
+        $product->installment_pay = ($price_with_fee + ($price_with_fee * $bank_interest)) / (int)$request->tenor;
+        $product->save();
 
         $product->save();
 

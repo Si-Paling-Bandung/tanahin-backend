@@ -23,6 +23,15 @@
                     }, {
                         data: 'price',
                         name: 'price'
+                    }, {
+                        data: 'monthly_pay',
+                        name: 'monthly_pay'
+                    }, {
+                        data: 'front_payment',
+                        name: 'front_payment'
+                    }, {
+                        data: 'tenor_month',
+                        name: 'tenor_month'
                     },
                     {
                         data: 'action',
@@ -72,6 +81,12 @@
         </div>
     @endif
 
+    @if (session('status'))
+        <div class="alert alert-success border-left-success" role="alert">
+            {{ session('status') }}
+        </div>
+    @endif
+
     @if ($errors->any())
         <div class="alert alert-danger border-left-danger" role="alert">
             <ul class="pl-4 my-2">
@@ -101,6 +116,9 @@
                                 <th>Category</th>
                                 <th>Name</th>
                                 <th>Price</th>
+                                <th>Monthly Pay</th>
+                                <th>Front Payment</th>
+                                <th>Tenor Month</th>
                                 <th width="200px">Action</th>
                             </tr>
                         </thead>

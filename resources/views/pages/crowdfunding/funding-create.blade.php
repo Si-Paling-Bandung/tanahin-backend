@@ -20,6 +20,12 @@
             </button>
         </div>
     @endif
+    
+    @if (session('status'))
+        <div class="alert alert-success border-left-success" role="alert">
+            {{ session('status') }}
+        </div>
+    @endif
 
     @if ($errors->any())
         <div class="alert alert-danger border-left-danger" role="alert">
@@ -50,8 +56,9 @@
                                         <label class="form-control-label" for="amount">{{ __('Amount') }}<span
                                                 class="small text-danger">*</span></label>
                                         <input type="number" class="form-control form-control-Product" amount="amount"
-                                            placeholder="{{ __('amount') }}" value="{{ old('amount') }}" name="amount"
-                                            required autofocus>
+                                            placeholder="{{ __('amount') }}" value="{{ old('amount') }}"  name="amount"
+                                            min={{ $min_bid }} required autofocus>
+                                        <small>Min Bid : {{ "Rp " . number_format($min_bid, 2, ',', '.') }}</small>
                                     </div>
 
                                     <div class="form-group">

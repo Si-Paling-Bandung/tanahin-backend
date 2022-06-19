@@ -25,6 +25,12 @@
         </div>
     @endif
 
+    @if (session('status'))
+        <div class="alert alert-success border-left-success" role="alert">
+            {{ session('status') }}
+        </div>
+    @endif
+
     @if ($errors->any())
         <div class="alert alert-danger border-left-danger" role="alert">
             <ul class="pl-4 my-2">
@@ -62,7 +68,8 @@
                                     <div class="form-group">
                                         <label class="form-control-label" for="area">{{ __('Area (m2)') }}<span
                                                 class="small text-danger">*</span></label>
-                                        <input type="number" min="0" step="1" class="form-control form-control-Product" title="area"
+                                        <input type="number" min="0" step="1"
+                                            class="form-control form-control-Product" title="area"
                                             placeholder="{{ __('area') }}" value="{{ old('area') }}" name="area"
                                             required autofocus>
                                     </div>
@@ -108,18 +115,85 @@
                                         <input type="number" class="form-control form-control-Product" title="price"
                                             placeholder="{{ __('price') }}" value="{{ old('price') }}" name="price"
                                             required autofocus>
+                                    </div>
 
+
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="dp">{{ __('DP') }}<span
+                                                class="small text-danger">*</span></label>
+                                        <input type="number" class="form-control form-control-Product" title="dp"
+                                            placeholder="{{ __('dp') }}" min=0 max=50 value="{{ old('dp') }}"
+                                            name="dp" required autofocus>
+                                            <small>in %, max 50%</small>
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="form-control-label"
-                                            for="discounted_price">{{ __('Discounted Price') }}<span
+                                        <label class="form-control-label" for="tenor">{{ __('Tenor') }}<span
                                                 class="small text-danger">*</span></label>
-                                        <input type="number" class="form-control form-control-Product"
-                                            title="discounted_price" placeholder="{{ __('discounted_price') }}"
-                                            value="{{ old('discounted_price') }}" name="discounted_price" required
-                                            autofocus>
-
+                                        <select name="tenor" id="tenor"
+                                            class="form-control @error('tenor') is-invalid @enderror">
+                                            <option value="">{{ __('Select Tenor') }}</option>
+                                            <option value="12" {{ old('tenor') == '12' ? 'selected' : '' }}>12
+                                                {{ __('Month') }} - 1 {{ __('Year') }}</option>
+                                            <option value="24" {{ old('tenor') == '24' ? 'selected' : '' }}>24
+                                                {{ __('Month') }} - 2 {{ __('Year') }}</option>
+                                            <option value="36" {{ old('tenor') == '36' ? 'selected' : '' }}>36
+                                                {{ __('Month') }} - 3 {{ __('Year') }}</option>
+                                            <option value="48" {{ old('tenor') == '48' ? 'selected' : '' }}>48
+                                                {{ __('Month') }} - 4 {{ __('Year') }}</option>
+                                            <option value="60" {{ old('tenor') == '60' ? 'selected' : '' }}>60
+                                                {{ __('Month') }} - 5 {{ __('Year') }}</option>
+                                            <option value="72" {{ old('tenor') == '72' ? 'selected' : '' }}>72
+                                                {{ __('Month') }} - 6 {{ __('Year') }}</option>
+                                            <option value="84" {{ old('tenor') == '84' ? 'selected' : '' }}>84
+                                                {{ __('Month') }} - 7 {{ __('Year') }}</option>
+                                            <option value="96" {{ old('tenor') == '96' ? 'selected' : '' }}>96
+                                                {{ __('Month') }} - 8 {{ __('Year') }}</option>
+                                            <option value="108" {{ old('tenor') == '108' ? 'selected' : '' }}>108
+                                                {{ __('Month') }} - 9 {{ __('Year') }}</option>
+                                            <option value="120" {{ old('tenor') == '120' ? 'selected' : '' }}>120
+                                                {{ __('Month') }} - 10 {{ __('Year') }}</option>
+                                            <option value="132" {{ old('tenor') == '132' ? 'selected' : '' }}>132
+                                                {{ __('Month') }} - 11 {{ __('Year') }}</option>
+                                            <option value="144" {{ old('tenor') == '144' ? 'selected' : '' }}>144
+                                                {{ __('Month') }} - 12 {{ __('Year') }}</option>
+                                            <option value="156" {{ old('tenor') == '156' ? 'selected' : '' }}>156
+                                                {{ __('Month') }} - 13 {{ __('Year') }}</option>
+                                            <option value="168" {{ old('tenor') == '168' ? 'selected' : '' }}>168
+                                                {{ __('Month') }} - 14 {{ __('Year') }}</option>
+                                            <option value="180" {{ old('tenor') == '180' ? 'selected' : '' }}>180
+                                                {{ __('Month') }} - 15 {{ __('Year') }}</option>
+                                            <option value="192" {{ old('tenor') == '192' ? 'selected' : '' }}>192
+                                                {{ __('Month') }} - 16 {{ __('Year') }}</option>
+                                            <option value="204" {{ old('tenor') == '204' ? 'selected' : '' }}>204
+                                                {{ __('Month') }} - 17 {{ __('Year') }}</option>
+                                            <option value="216" {{ old('tenor') == '216' ? 'selected' : '' }}>216
+                                                {{ __('Month') }} - 18 {{ __('Year') }}</option>
+                                            <option value="228" {{ old('tenor') == '228' ? 'selected' : '' }}>228
+                                                {{ __('Month') }} - 19 {{ __('Year') }}</option>
+                                            <option value="240" {{ old('tenor') == '240' ? 'selected' : '' }}>240
+                                                {{ __('Month') }} - 20 {{ __('Year') }}</option>
+                                            <option value="252" {{ old('tenor') == '252' ? 'selected' : '' }}>252
+                                                {{ __('Month') }} - 21 {{ __('Year') }}</option>
+                                            <option value="264" {{ old('tenor') == '264' ? 'selected' : '' }}>264
+                                                {{ __('Month') }} - 22 {{ __('Year') }}</option>
+                                            <option value="276" {{ old('tenor') == '276' ? 'selected' : '' }}>276
+                                                {{ __('Month') }} - 23 {{ __('Year') }}</option>
+                                            <option value="288" {{ old('tenor') == '288' ? 'selected' : '' }}>288
+                                                {{ __('Month') }} - 24 {{ __('Year') }}</option>
+                                            <option value="300" {{ old('tenor') == '300' ? 'selected' : '' }}>300
+                                                {{ __('Month') }} - 25 {{ __('Year') }}</option>
+                                            <option value="312" {{ old('tenor') == '312' ? 'selected' : '' }}>312
+                                                {{ __('Month') }} - 26 {{ __('Year') }}</option>
+                                            <option value="324" {{ old('tenor') == '324' ? 'selected' : '' }}>324
+                                                {{ __('Month') }} - 27 {{ __('Year') }}</option>
+                                            <option value="336" {{ old('tenor') == '336' ? 'selected' : '' }}>336
+                                                {{ __('Month') }} - 28 {{ __('Year') }}</option>
+                                            <option value="348" {{ old('tenor') == '348' ? 'selected' : '' }}>348
+                                                {{ __('Month') }} - 29 {{ __('Year') }}</option>
+                                            <option value="360" {{ old('tenor') == '360' ? 'selected' : '' }}>360
+                                                {{ __('Month') }} - 30 {{ __('Year') }}</option>
+                                        </select>
                                     </div>
 
                                     <div class="form-group">
