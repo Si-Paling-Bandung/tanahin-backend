@@ -63,37 +63,20 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="form-control-label" for="name">{{ __('Username') }}<span
+                                        <label class="form-control-label" for="email">{{ __('Email') }}<span
                                                 class="small text-danger">*</span></label>
-                                        <input type="text" class="form-control form-control-user" name="username"
-                                            placeholder="{{ __('Username') }}" value="{{ $data->username }}" required>
+                                        <input type="email" class="form-control form-control-user" name="email"
+                                            placeholder="{{ __('Email') }}" value="{{ $data->email }}" required>
                                     </div>
 
-                                    @if ($data->role == 'perangkat_daerah')
-                                        <div class="form-group" id="text">
-                                            <label for="id_local_official" class="form-control-label">Local Official</label>
-                                            <select name="id_local_official" id="id_local_official"
-                                                class="form-control @error('id_local_official') is-invalid @enderror">
-                                                @foreach ($data_regional as $it)
-                                                    <option {{ $it->id == $data->id_local_official ? 'selected' : '' }}
-                                                        value="{{ $it->id }}">
-                                                        {{ $it->title }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    @else
-                                        <div class="form-group" id="text2">
-                                            <label for="id_instance" class="form-control-label">Instantion</label>
-                                            <select name="id_instance" id="instance"
-                                                class="form-control @error('id_instance') is-invalid @enderror">
-                                                @foreach ($data_instance as $it)
-                                                    <option {{ $it->id == $data->id_instansi ? 'selected' : '' }}
-                                                        value="{{ $it->id }}">
-                                                        {{ $it->title }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    @endif
+                                    <div class="form-group">
+                                        <label class="form-control-label"
+                                            for="phone_number">{{ __('Phone Number') }}<span
+                                                class="small text-danger">*</span></label>
+                                        <input type="text" class="form-control form-control-user" name="phone_number"
+                                            placeholder="{{ __('Phone Number') }}" value="{{ $data->phone_number }}"
+                                            required>
+                                    </div>
 
                                 </div>
                             </div>

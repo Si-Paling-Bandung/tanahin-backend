@@ -71,9 +71,10 @@ class ProductController extends Controller
             'category' => 'required',
             'suitable'  => 'required',
             'price'  => 'required',
-            'discounted_price'  => 'required',
             'photo'  => 'required',
         ]);
+
+
 
         $product = new Product();
         $product->id_store = Store::where('id_user', Auth::user()->id)->first()->id;
@@ -85,8 +86,15 @@ class ProductController extends Controller
         $product->id_category = $request->category;
         $product->suitable = $request->suitable;
         $product->price = $request->price;
-        $product->discounted_price = $request->discounted_price;
         $product->photo = Storage::disk('public')->put('product', $request->file('photo'));
+
+        if ($request->discounted_price != null) {
+            if ($request->discounted_price >= $request->price) {
+                return redirect()->back()->withErrors('Discounted price must be less than price');
+            }
+            $product->discounted_price = $request->discounted_price;
+        }
+
 
         $product->price_meter = (int)$request->price / (int)$request->area;
 

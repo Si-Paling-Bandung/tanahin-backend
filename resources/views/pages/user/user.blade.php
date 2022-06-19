@@ -16,12 +16,16 @@
                         name: 'name'
                     },
                     {
-                        data: 'username',
-                        name: 'username'
+                        data: 'email',
+                        name: 'email'
                     },
                     {
-                        data: 'role',
-                        name: 'role'
+                        data: 'phone_number',
+                        name: 'phone_number'
+                    },
+                    {
+                        data: 'user_profiling',
+                        name: 'user_profiling'
                     },
                     {
                         data: 'action',
@@ -103,8 +107,9 @@
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>Username</th>
-                                <th>Role</th>
+                                <th>Email</th>
+                                <th>Phone Number</th>
+                                <th>Profiling</th>
                                 <th width="100px">Action</th>
                             </tr>
                         </thead>

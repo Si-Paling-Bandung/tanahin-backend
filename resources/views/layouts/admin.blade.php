@@ -118,43 +118,27 @@
             <!-- Nav Item - Forum -->
             <li class="nav-item {{ Nav::isRoute('forum*') }}">
                 <a class="nav-link" href="{{ route('forum') }}">
-                    <i class="fas fa-fw fa-users"></i>
+                    <i class="fas fa-fw fa-book-open"></i>
                     <span>{{ __('Thread') }}</span>
                 </a>
             </li>
 
-            {{--  <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
 
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                {{ __('Education Management') }}
-            </div>
-
-            <!-- Nav Item - Education -->
-            <li class="nav-item {{ Nav::isRoute('education*') }}">
-                <a class="nav-link" href="{{ route('education') }}">
-                    <i class="fas fa-fw fa-graduation-cap"></i>
-                    <span>{{ __('Education') }}</span>
-                </a>
-            </li>  --}}
-
-
-            {{--  <!-- Divider -->
+            <!-- Divider -->
             <hr class="sidebar-divider">
 
             <!-- Heading -->
             <div class="sidebar-heading">
                 {{ __('User Management') }}
-            </div>  --}}
+            </div>
 
             <!-- Nav Item - Profile -->
-            {{--  <li class="nav-item {{ Nav::isRoute('user*') }}">
+            <li class="nav-item {{ Nav::isRoute('user*') }}">
                 <a class="nav-link" href="{{ route('user') }}">
                     <i class="fas fa-fw fa-users"></i>
                     <span>{{ __('Users') }}</span>
                 </a>
-            </li>  --}}
+            </li>
 
 
             <!-- Divider -->

@@ -116,11 +116,10 @@
 
                                     <div class="form-group">
                                         <label class="form-control-label"
-                                            for="discounted_price">{{ __('Discounted Price') }}<span
-                                                class="small text-danger">*</span></label>
+                                            for="discounted_price">{{ __('Discounted Price') }}</label>
                                         <input type="number" class="form-control form-control-Product"
                                             title="discounted_price" placeholder="{{ __('discounted_price') }}"
-                                            value="{{ old('discounted_price') }}" name="discounted_price" required
+                                            value="{{ old('discounted_price') }}" name="discounted_price"
                                             autofocus>
 
                                     </div>

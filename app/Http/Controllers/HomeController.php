@@ -30,15 +30,13 @@ class HomeController extends Controller
     public function index()
     {
         $product = Product::all()->count();
+        $user = User::all()->count();
         $thread = Thread::all()->count();
-        $education = Education::all()->count();
-        $crowdfunding = Project::all()->count();
 
         $widget = [
+            'user' => $user,
             'product' => $product,
             'thread' => $thread,
-            'education' => $education,
-            'crowdfunding' => $crowdfunding,
         ];
 
         return view('home', compact('widget'));

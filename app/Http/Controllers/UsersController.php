@@ -29,7 +29,10 @@ class UsersController extends Controller
                     $button = '<a href="' . action('UsersController@update_view', $data->id) . '" type="button" name="edit" id="' . $data->id . '" class="edit btn btn-warning btn-sm">Edit</a>';
                     $button .= '&nbsp;&nbsp;&nbsp;<a data-toggle="confirmation" data-singleton="true" data-popout="true" href="' . action('UsersController@delete', $data->id) . '" type="button" name="delete" id="' . $data->id . '" class="delete btn btn-danger btn-sm"' . "onclick='return'" . '>Delete</a>';
                     return $button;
+                })->addColumn('user_profiling', function ($data) {
+                    return "Rp " . number_format($data->profiling, 2, ',', '.');;
                 })
+
                 ->rawColumns(['action'])
                 ->make(true);
         }
@@ -44,9 +47,7 @@ class UsersController extends Controller
      */
     public function create_view()
     {
-        $data_instance = Instance::all();
-        $data_regional = LocalOfficial::all();
-        return view('pages.user.create', compact('data_instance', 'data_regional'));
+        return view('pages.user.create');
     }
 
     /**
@@ -58,21 +59,16 @@ class UsersController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'username' => ['required', 'string', 'unique:users'],
+            'email' => ['required', 'string', 'unique:users'],
+            'phone_number' => ['required', 'string', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
-            'role'  => ['required'],
         ]);
 
         $user = new User();
         $user->name = $request->name;
-        $user->username = $request->username;
+        $user->email = $request->email;
+        $user->phone_number = $request->phone_number;
         $user->password = bcrypt($request->password);
-        $user->role = $request->role;
-        if ($request->role == "perangkat_daerah") {
-            $user->id_local_official = $request->id_local_official;
-        } elseif ($request->role == "kader" || $request->role == "tenaga_kesehatan" || $request->role == "trainer")  {
-            $user->id_instansi = $request->id_instance;
-        }
 
         $user->save();
 
@@ -88,9 +84,7 @@ class UsersController extends Controller
     public function update_view($id)
     {
         $data = User::find($id);
-        $data_instance = Instance::all();
-        $data_regional = LocalOfficial::all();
-        return view('pages.user.update', compact('data','data_instance','data_regional'));
+        return view('pages.user.update', compact('data'));
     }
 
     public function update_process(Request $request, $id)
@@ -99,16 +93,13 @@ class UsersController extends Controller
 
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'username' => ['required', 'string', Rule::unique('users', 'username')->ignore($user)],
+            'email' => ['required', 'string', Rule::unique('users', 'email')->ignore($user)],
+            'phone_number' => ['required', 'string', Rule::unique('users', 'phone_number')->ignore($user)],
         ]);
 
         $user->name = $request->name;
-        $user->username = $request->username;
-        if ($user->role == "perangkat_daerah") {
-            $user->id_regional_device = $request->id_regional_device;
-        } elseif ($request->role == "kader" || $request->role == "tenaga_kesehatan" || $request->role == "trainer") {
-            $user->id_instansi = $request->id_instance;
-        }
+        $user->email = $request->email;
+        $user->phone_number = $request->phone_number;
         $user->save();
 
         return redirect()->route('user')->withSuccess('User updated successfully.');

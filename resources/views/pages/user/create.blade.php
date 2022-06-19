@@ -60,10 +60,19 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="form-control-label" for="name">{{ __('Username') }}<span
+                                        <label class="form-control-label" for="email">{{ __('Email') }}<span
                                                 class="small text-danger">*</span></label>
-                                        <input type="text" class="form-control form-control-user" name="username"
-                                            placeholder="{{ __('Username') }}" value="{{ old('username') }}" required>
+                                        <input type="email" class="form-control form-control-user" name="email"
+                                            placeholder="{{ __('Email') }}" value="{{ old('email') }}" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-control-label"
+                                            for="phone_number">{{ __('Phone Number') }}<span
+                                                class="small text-danger">*</span></label>
+                                        <input type="text" class="form-control form-control-user" name="phone_number"
+                                            placeholder="{{ __('Phone Number') }}" value="{{ old('phone_number') }}"
+                                            required>
                                     </div>
 
                                     <div class="form-group">
@@ -73,36 +82,6 @@
                                             placeholder="{{ __('Password') }}" required>
                                     </div>
 
-                                    <div class="form-group">
-                                        <label for="role" class="form-control-label">Role</label>
-                                        <select name="role" id="role"
-                                            class="form-control @error('role') is-invalid @enderror" onclick="myFunction()">
-                                            <option value="kader">Pendamping PRIMA</option>
-                                            <option value="tenaga_kesehatan">Tenaga Kesehatan</option>
-                                            <option value="trainer">Trainer</option>
-                                            <option value="perangkat_daerah">Perangkat Daerah</option>
-                                            <option value="lainnya">Lainnya</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group" id="text2" style="display:block">
-                                        <label for="id_instance" class="form-control-label">Instantion</label>
-                                        <select name="id_instance" id="instance"
-                                            class="form-control @error('id_instance') is-invalid @enderror">
-                                            @foreach ($data_instance as $it)
-                                                <option value="{{ $it->id }}">{{ $it->title }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="form-group" id="text" style="display:none">
-                                        <label for="id_local_official" class="form-control-label">Local Official</label>
-                                        <select name="id_local_official" id="id_local_official"
-                                            class="form-control @error('id_local_official') is-invalid @enderror">
-                                            @foreach ($data_regional as $it)
-                                                <option value="{{ $it->id }}">{{ $it->title }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -125,29 +104,5 @@
         </div>
 
     </form>
-    <script>
-        $(document).ready(function() {
-            //change selectboxes to selectize mode to be searchable
-            $("select").select2();
-        });
-    </script>
-    <script>
-        function myFunction() {
-            var checkBox = document.getElementById("myCheck");
-            var text = document.getElementById("text");
-            var text2 = document.getElementById("text2")
-            if (document.getElementById('role').value == "kader" || document.getElementById('role').value ==
-                "tenaga_kesehatan" || document.getElementById('role').value == "trainer") {
-                text.style.display = "none";
-                text2.style.display = "block";
-            } else if (document.getElementById('role').value == "perangkat_daerah") {
-                text.style.display = "block";
-                text2.style.display = "none";
-            } else {
-                text.style.display = "none";
-                text2.style.display = "none";
-            }
-        }
-    </script>
 
 @endsection
