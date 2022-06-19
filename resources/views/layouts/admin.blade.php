@@ -64,6 +64,22 @@
 
             <!-- Heading -->
             <div class="sidebar-heading">
+                {{ __('Installment Management') }}
+            </div>
+
+            <!-- Nav Item - Installment -->
+            <li class="nav-item {{ Nav::isRoute('installment*') }}">
+                <a class="nav-link" href="{{ route('installment') }}">
+                    <i class="fas fa-fw fa-credit-card"></i>
+                    <span>{{ __('Installment') }}</span>
+                </a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
                 {{ __('Auction Management') }}
             </div>
 
@@ -107,7 +123,7 @@
                 </a>
             </li>
 
-            <!-- Divider -->
+            {{--  <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
             <!-- Heading -->
@@ -121,7 +137,7 @@
                     <i class="fas fa-fw fa-graduation-cap"></i>
                     <span>{{ __('Education') }}</span>
                 </a>
-            </li>
+            </li>  --}}
 
 
             {{--  <!-- Divider -->

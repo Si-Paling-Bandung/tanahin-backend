@@ -53,7 +53,7 @@
         <h1 class="h3 mb-4 text-gray-800">{{ __('Auction Management') }}</h1>
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a href="{{ route('crowdfunding.funding.create', $id) }}" class="btn btn-dark border-0">New Bid</a>
+                <a href="{{ route('crowdfunding.funding.create', $id) }}" class="btn btn-success border-0">New Bid</a>
             </li>
         </ul>
     </nav>

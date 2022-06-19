@@ -92,6 +92,7 @@ class ProjectController extends Controller
         $product->id_store = Store::where('id_user', Auth::user()->id)->first()->id;
         $product->type = "lelang";
         $product->title = $request->title;
+        $product->area = $request->area;
         $product->address = $request->address;
         $product->description = $request->description;
         $product->id_category = $request->category;
@@ -99,6 +100,9 @@ class ProjectController extends Controller
         $product->price = $request->price;
         $product->auction_deadline = $request->deadline;
         $product->photo = Storage::disk('public')->put('product', $request->file('photo'));
+
+        $product->price_meter = (int)$request->price / (int)$request->area;
+
         $product->save();
 
         return redirect()->route('crowdfunding')->withSuccess('Auction Post created successfully.');

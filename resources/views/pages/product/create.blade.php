@@ -10,7 +10,10 @@
 
 @section('main-content')
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800">{{ __('Create Product') }}</h1>
+    <div class="mb-4">
+        <h1 class="h3 text-gray-800">{{ __('Create Product') }}</h1>
+        <a href="{{ route('product') }}" class=""><-- Previous Page</a>
+    </div>
 
     @if (session('success'))
         <div class="alert alert-success border-left-success alert-dismissible fade show" role="alert">
@@ -45,15 +48,6 @@
 
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label for="type" class="form-control-label">{{ __('Type') }}<span
-                                            class="small text-danger">*</span></label>
-                                        <select name="type" id="type"
-                                            class="form-control @error('type') is-invalid @enderror">
-                                            <option value="jual">Jual</option>
-                                            <option value="cicil">Cicil</option>
-                                        </select>
-                                    </div>
 
                                     <div class="form-group">
                                         <label class="form-control-label" for="title">{{ __('Title') }}<span
@@ -61,6 +55,14 @@
                                         <input type="text" class="form-control form-control-Product" title="title"
                                             placeholder="{{ __('title') }}" value="{{ old('title') }}" name="title" required
                                             autofocus>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="area">{{ __('Area (m2)') }}<span
+                                                class="small text-danger">*</span></label>
+                                        <input type="number" min="0" step="1" class="form-control form-control-Product" title="area"
+                                            placeholder="{{ __('area') }}" value="{{ old('area') }}" name="area"
+                                            required autofocus>
                                     </div>
 
                                     <div class="form-group">
@@ -133,6 +135,10 @@
                         <div class="pl-lg-4">
                             <div class="row">
                                 <div class="col text-center">
+                                    <a href="{{ route('product') }}" class="btn btn-warning">
+                                        <i class="fas fa-arrow-left mr-2"></i>
+                                        {{ __('Back') }}
+                                    </a>
                                     <button type="submit" class="btn btn-success">{{ __('Create') }}</button>
                                 </div>
                             </div>

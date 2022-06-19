@@ -52,7 +52,7 @@
         <h1 class="h3 mb-4 text-gray-800">{{ __('Product Review Management') }}</h1>
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a href="{{ route('product.review.create', $id) }}" class="btn btn-dark border-0">New Product Review</a>
+                <a href="{{ route('product.review.create', $id) }}" class="btn btn-success border-0">New Product Review</a>
             </li>
         </ul>
     </nav>

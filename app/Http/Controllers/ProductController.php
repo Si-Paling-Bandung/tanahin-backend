@@ -20,7 +20,7 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Product::all();
+            $data = Product::where('type','jual')->get();
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($data) {
@@ -64,8 +64,8 @@ class ProductController extends Controller
     public function create_process(Request $request)
     {
         $request->validate([
-            'type' => 'required',
             'title' => 'required',
+            'area' => 'required',
             'address' => 'required',
             'description' => 'required',
             'category' => 'required',
@@ -77,8 +77,9 @@ class ProductController extends Controller
 
         $product = new Product();
         $product->id_store = Store::where('id_user', Auth::user()->id)->first()->id;
-        $product->type = $request->type;
+        $product->type = 'jual';
         $product->title = $request->title;
+        $product->area = $request->area;
         $product->address = $request->address;
         $product->description = $request->description;
         $product->id_category = $request->category;
@@ -86,6 +87,9 @@ class ProductController extends Controller
         $product->price = $request->price;
         $product->discounted_price = $request->discounted_price;
         $product->photo = Storage::disk('public')->put('product', $request->file('photo'));
+
+        $product->price_meter = (int)$request->price / (int)$request->area;
+
         $product->save();
 
         return redirect()->route('product')->withSuccess('Product created successfully.');
@@ -103,6 +107,106 @@ class ProductController extends Controller
         $product->delete();
 
         return redirect()->route('product')->withSuccess('Product deleted successfully.');
+    }
+
+    // ===================================================================================================
+    // ====================================== installment ===============================================
+    // ===================================================================================================
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index_installment(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = Product::where('type','cicilan')->get();
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function ($data) {
+                    $button = '<a data-toggle="confirmation" data-singleton="true" data-popout="true" href="' . route('installment.delete', $data->id) . '" type="button" name="delete" id="' . $data->id . '" class="delete btn btn-danger btn-sm"' . "onclick='return'" . '>Delete</a>';
+                    return $button;
+                })
+                ->addColumn('price', function ($data) {
+                    $hasil_rupiah = "Rp " . number_format($data->price, 2, ',', '.');
+                    return $hasil_rupiah;
+                })
+                ->addColumn('photo', function ($data) {
+                    return '<img src="' . Storage::url($data->photo) . '" width="100px" height="100px" />';
+                })
+                ->addColumn('category', function ($data) {
+                    return ProductCategory::find($data->id_category)->name;
+                })
+                ->rawColumns(['action', 'photo', 'price', 'category'])
+                ->make(true);
+        }
+
+        return view('pages.installment.installment');
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create_view_installment()
+    {
+        $categories = ProductCategory::all();
+        return view('pages.installment.create', compact('categories'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create_process_installment(Request $request)
+    {
+        $request->validate([
+            'title' => 'required',
+            'area' => 'required',
+            'address' => 'required',
+            'description' => 'required',
+            'category' => 'required',
+            'suitable'  => 'required',
+            'price'  => 'required',
+            'discounted_price'  => 'required',
+            'photo'  => 'required',
+        ]);
+
+        $product = new Product();
+        $product->id_store = Store::where('id_user', Auth::user()->id)->first()->id;
+        $product->type = 'cicilan';
+        $product->title = $request->title;
+        $product->area = $request->area;
+        $product->address = $request->address;
+        $product->description = $request->description;
+        $product->id_category = $request->category;
+        $product->suitable = $request->suitable;
+        $product->price = $request->price;
+        $product->discounted_price = $request->discounted_price;
+        $product->photo = Storage::disk('public')->put('product', $request->file('photo'));
+
+        $product->price_meter = (int)$request->price / (int)$request->area;
+
+        $product->save();
+
+        return redirect()->route('installment')->withSuccess('Installment created successfully.');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Category  $category
+     * @return \Illuminate\Http\Response
+     */
+    public function delete_installment($id)
+    {
+        $product = Product::find($id);
+        $product->delete();
+
+        return redirect()->route('installment')->withSuccess('Installment deleted successfully.');
     }
 
     /**

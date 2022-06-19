@@ -52,7 +52,7 @@
         <h1 class="h3 mb-4 text-gray-800">{{ __('Education Management') }}</h1>
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a href="{{ route('education.create') }}" class="btn btn-dark border-0">New Education</a>
+                <a href="{{ route('education.create') }}" class="btn btn-success border-0">New Education</a>
             </li>
         </ul>
     </nav>

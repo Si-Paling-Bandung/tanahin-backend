@@ -10,7 +10,10 @@
 
 @section('main-content')
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800">{{ __('Create Thread') }}</h1>
+    <div class="mb-4">
+        <h1 class="h3 text-gray-800">{{ __('Create Thread') }}</h1>
+        <a href="{{ route('forum') }}" class=""><-- Previous Page</a>
+    </div>
 
     @if (session('success'))
         <div class="alert alert-success border-left-success alert-dismissible fade show" role="alert">
@@ -87,6 +90,10 @@
                         <div class="pl-lg-4">
                             <div class="row">
                                 <div class="col text-center">
+                                    <a href="{{ route('forum') }}" class="btn btn-warning">
+                                        <i class="fas fa-arrow-left mr-2"></i>
+                                        {{ __('Back') }}
+                                    </a>
                                     <button type="submit" class="btn btn-success">{{ __('Create') }}</button>
                                 </div>
                             </div>

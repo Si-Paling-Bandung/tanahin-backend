@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\LastestTransaction;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -20,36 +19,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-
-// =============================== H A P U S ================================
-use Illuminate\Http\File;
-use App\User;
-
-// Route::get('/userProfile', function () {
-
-//     $user = User::find(1);
-
-//     $xmlString = LastestTransaction::first()->transaction;
-
-//     $collection = collect(json_decode($xmlString, true));
-//     $data = $collection['data'];
-//     $income = 0;
-//     $expense = 0;
-//     foreach ($data as $dt) {
-//         $object = json_decode(json_encode($dt), FALSE);
-//         if ($object->direction == 'in') {
-//             $income += $object->amount;
-//         } else {
-//             $expense += $object->amount;
-//         }
-//     }
-//     $income *= 2;
-
-//     $user->profiling = $income - $expense;
-//     $user->save();
-
-//     return $user->profiling;
-// });
 
 // ============================================================================
 // ================================ L O G I N =================================
@@ -102,11 +71,6 @@ Route::middleware('auth')->group(function () {
             Route::post('/create', 'ProductController@create_process')->name('.create.process');
             Route::get('/{id}/delete}', 'ProductController@delete')->name('.delete');
 
-            Route::get('/{id}/variant', 'ProductVariantController@index')->name('.variant');
-            Route::get('/{id}/variant/create', 'ProductVariantController@create_view')->name('.variant.create');
-            Route::post('/{id}/variant/create', 'ProductVariantController@create_process')->name('.variant.create.process');
-            Route::get('/{id}/variant/{id_product_variant}/delete', 'ProductVariantController@delete')->name('.variant.delete');
-
             Route::get('/{id}/review', 'ProductReviewController@index')->name('.review');
             Route::get('/{id}/review/create', 'ProductReviewController@create_view')->name('.review.create');
             Route::post('/{id}/review/create', 'ProductReviewController@create_process')->name('.review.create.process');
@@ -127,7 +91,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/{id}/delete}', 'EducationController@delete')->name('.delete');
         });
 
-        Route::prefix('crowdfunding')->name('crowdfunding')->group(function () {
+        Route::prefix('auction')->name('crowdfunding')->group(function () {
             Route::get('/', 'ProjectController@index')->name('');
             Route::get('/create', 'ProjectController@create_view')->name('.create');
             Route::post('/create', 'ProjectController@create_process')->name('.create.process');
@@ -137,6 +101,13 @@ Route::middleware('auth')->group(function () {
             Route::get('/{id}/funding/create', 'ProjectFundingController@create_view')->name('.funding.create');
             Route::post('/{id}/funding/create', 'ProjectFundingController@create_process')->name('.funding.create.process');
             Route::get('/{id}/funding/{id_product_variant}/delete', 'ProjectFundingController@delete')->name('.funding.delete');
+        });
+
+        Route::prefix('installment')->name('installment')->group(function () {
+            Route::get('/', 'ProductController@index_installment')->name('');
+            Route::get('/create', 'ProductController@create_view_installment')->name('.create');
+            Route::post('/create', 'ProductController@create_process_installment')->name('.create.process');
+            Route::get('/{id}/delete}', 'ProductController@delete_installment')->name('.delete');
         });
     });
 });

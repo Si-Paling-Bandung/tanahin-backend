@@ -6,13 +6,13 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
 @endpush
 @extends('layouts.admin')
-@section('title', 'Create Auction Post')
+@section('title', 'Create Installment')
 
 @section('main-content')
     <!-- Page Heading -->
     <div class="mb-4">
-        <h1 class="h3 text-gray-800">{{ __('Create Auction Post') }}</h1>
-        <a href="{{ route('crowdfunding') }}" class="">
+        <h1 class="h3 text-gray-800">{{ __('Create Installment') }}</h1>
+        <a href="{{ route('installment') }}" class="">
             <-- Previous Page</a>
     </div>
 
@@ -22,12 +22,6 @@
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
-        </div>
-    @endif
-
-    @if (session('status'))
-        <div class="alert alert-success border-left-success" role="alert">
-            {{ session('status') }}
         </div>
     @endif
 
@@ -41,7 +35,7 @@
         </div>
     @endif
 
-    <form method="POST" action="{{ route('crowdfunding.create.process') }}" autocomplete="off"
+    <form method="POST" action="{{ route('installment.create.process') }}" autocomplete="off"
         enctype="multipart/form-data">
         @csrf
         <div class="row">
@@ -68,8 +62,7 @@
                                     <div class="form-group">
                                         <label class="form-control-label" for="area">{{ __('Area (m2)') }}<span
                                                 class="small text-danger">*</span></label>
-                                        <input type="number" min="0" step="1"
-                                            class="form-control form-control-Product" title="area"
+                                        <input type="number" min="0" step="1" class="form-control form-control-Product" title="area"
                                             placeholder="{{ __('area') }}" value="{{ old('area') }}" name="area"
                                             required autofocus>
                                     </div>
@@ -119,13 +112,15 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="form-control-label" for="deadline">{{ __('Deadline') }}<span
+                                        <label class="form-control-label"
+                                            for="discounted_price">{{ __('Discounted Price') }}<span
                                                 class="small text-danger">*</span></label>
-                                        <input type="datetime-local" class="form-control form-control-Product"
-                                            title="deadline" placeholder="{{ __('deadline') }}"
-                                            value="{{ old('deadline') }}" name="deadline" required autofocus>
-                                    </div>
+                                        <input type="number" class="form-control form-control-Product"
+                                            title="discounted_price" placeholder="{{ __('discounted_price') }}"
+                                            value="{{ old('discounted_price') }}" name="discounted_price" required
+                                            autofocus>
 
+                                    </div>
 
                                     <div class="form-group">
                                         <label class="form-control-label" for="photo">{{ __('Photo') }}<span
@@ -143,7 +138,7 @@
                         <div class="pl-lg-4">
                             <div class="row">
                                 <div class="col text-center">
-                                    <a href="{{ route('crowdfunding') }}" class="btn btn-warning">
+                                    <a href="{{ route('installment') }}" class="btn btn-warning">
                                         <i class="fas fa-arrow-left mr-2"></i>
                                         {{ __('Back') }}
                                     </a>
@@ -161,8 +156,5 @@
         </div>
 
     </form>
-    <script>
-        var today = new Date().toISOString().slice(0, 16);
-        document.getElementsByName("deadline")[0].min = today;
-    </script>
+
 @endsection
