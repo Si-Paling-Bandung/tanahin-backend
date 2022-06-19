@@ -12,6 +12,7 @@ use DataTables;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Store;
 use Carbon\Carbon;
+use App\User;
 
 class ProjectController extends Controller
 {
@@ -45,9 +46,16 @@ class ProjectController extends Controller
                         return 'No Bid';
                     }
                     $hasil_rupiah = "Rp " . number_format($check_lastest->amount, 2, ',', '.');
-                    return $hasil_rupiah;
+                    $bid_name = User::find($check_lastest->id_user)->name;
+                    return $hasil_rupiah.'<br> By : <b>'.$bid_name.'</b>';
                 })
-                ->rawColumns(['action', 'photo', 'price', 'lastest_bid', 'deadline'])
+                ->addColumn('photo_drone', function ($data) {
+                    return '<img src="' . Storage::url($data->photo_drone) . '" width="100px" height="100px" />';
+                })
+                ->addColumn('photo_denah', function ($data) {
+                    return '<img src="' . Storage::url($data->photo_denah) . '" width="100px" height="100px" />';
+                })
+                ->rawColumns(['action', 'photo', 'price', 'lastest_bid', 'deadline', 'photo_drone', 'photo_denah'])
                 ->make(true);
         }
 
@@ -81,6 +89,8 @@ class ProjectController extends Controller
             'price'  => 'required',
             'deadline'  => 'required',
             'photo'  => 'required',
+            'photo_drone'  => 'required',
+            'photo_denah'  => 'required',
         ]);
 
 
@@ -100,6 +110,8 @@ class ProjectController extends Controller
         $product->price = $request->price;
         $product->auction_deadline = $request->deadline;
         $product->photo = Storage::disk('public')->put('product', $request->file('photo'));
+        $product->photo_drone = Storage::disk('public')->put('product', $request->file('photo_drone'));
+        $product->photo_denah = Storage::disk('public')->put('product', $request->file('photo_denah'));
 
         $product->price_meter = (int)$request->price / (int)$request->area;
 

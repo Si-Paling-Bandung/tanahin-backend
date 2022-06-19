@@ -13,7 +13,9 @@
                 },
                 columns: [{
                         data: 'photo',
-                        name: 'photo'
+                        name: 'photo',
+                        orderable: false,
+                        searchable: false,
                     }, {
                         data: 'title',
                         name: 'title'
@@ -99,7 +101,7 @@
                             <tr>
                                 <th>Education Post Cover Image</th>
                                 <th>Education Post Title</th>
-                                <th width="200px">Action</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>

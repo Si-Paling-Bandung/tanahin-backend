@@ -35,10 +35,16 @@ class ProductController extends Controller
                 ->addColumn('photo', function ($data) {
                     return '<img src="' . Storage::url($data->photo) . '" width="100px" height="100px" />';
                 })
+                ->addColumn('photo_drone', function ($data) {
+                    return '<img src="' . Storage::url($data->photo_drone) . '" width="100px" height="100px" />';
+                })
+                ->addColumn('photo_denah', function ($data) {
+                    return '<img src="' . Storage::url($data->photo_denah) . '" width="100px" height="100px" />';
+                })
                 ->addColumn('category', function ($data) {
                     return ProductCategory::find($data->id_category)->name;
                 })
-                ->rawColumns(['action', 'photo', 'price', 'category'])
+                ->rawColumns(['action', 'photo', 'price', 'category', 'photo_drone', 'photo_denah'])
                 ->make(true);
         }
 
@@ -72,6 +78,8 @@ class ProductController extends Controller
             'suitable'  => 'required',
             'price'  => 'required',
             'photo'  => 'required',
+            'photo_drone'  => 'required',
+            'photo_denah'  => 'required',
         ]);
 
 
@@ -87,6 +95,8 @@ class ProductController extends Controller
         $product->suitable = $request->suitable;
         $product->price = $request->price;
         $product->photo = Storage::disk('public')->put('product', $request->file('photo'));
+        $product->photo_drone = Storage::disk('public')->put('product', $request->file('photo_drone'));
+        $product->photo_denah = Storage::disk('public')->put('product', $request->file('photo_denah'));
 
         if ($request->discounted_price != null) {
             if ($request->discounted_price >= $request->price) {
@@ -153,10 +163,16 @@ class ProductController extends Controller
                 ->addColumn('photo', function ($data) {
                     return '<img src="' . Storage::url($data->photo) . '" width="100px" height="100px" />';
                 })
+                ->addColumn('photo_drone', function ($data) {
+                    return '<img src="' . Storage::url($data->photo_drone) . '" width="100px" height="100px" />';
+                })
+                ->addColumn('photo_denah', function ($data) {
+                    return '<img src="' . Storage::url($data->photo_denah) . '" width="100px" height="100px" />';
+                })
                 ->addColumn('category', function ($data) {
                     return ProductCategory::find($data->id_category)->name;
                 })
-                ->rawColumns(['action', 'photo', 'price', 'category'])
+                ->rawColumns(['action', 'photo', 'price', 'category', 'photo_drone', 'photo_denah'])
                 ->make(true);
         }
 
@@ -192,6 +208,8 @@ class ProductController extends Controller
             'dp'  => 'required',
             'tenor'  => 'required',
             'photo'  => 'required',
+            'photo_drone'  => 'required',
+            'photo_denah'  => 'required',
         ]);
 
         $product = new Product();
@@ -207,6 +225,8 @@ class ProductController extends Controller
         $product->dp = $request->dp;
         $product->tenor = $request->tenor;
         $product->photo = Storage::disk('public')->put('product', $request->file('photo'));
+        $product->photo_drone = Storage::disk('public')->put('product', $request->file('photo_drone'));
+        $product->photo_denah = Storage::disk('public')->put('product', $request->file('photo_denah'));
 
         $product->price_meter = (int)$request->price / (int)$request->area;
 

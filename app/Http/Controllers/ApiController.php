@@ -39,6 +39,7 @@ use Illuminate\Support\Facades\Http;
 use App\Models\Education;
 use App\Models\LastestTransaction;
 use App\Models\Product;
+use App\Models\ProductBid;
 use App\Models\ProductReview;
 use App\Models\ProductVariant;
 use App\Models\Thread;
@@ -50,38 +51,15 @@ class ApiController extends Controller
     public function home(Request $request)
     {
         $auction = Product::where('type', '=', 'lelang')->orderBy('created_at', 'desc')->offset(0)->limit(3)->get();
-        $rekomendasi = Product::all();
-
-        foreach ($auction as $data) {
-            $product_variant = ProductVariant::where('id_product', $data->id)->get();
-            $data->{"product_variant"} = $product_variant;
-
-            $rating = 0;
-            if (!ProductReview::where('id_product', $data->id)->get()->count() == 0) {
-                $rating = ProductReview::where('id_product', $data->id)->get()->sum('rating') / ProductReview::where('id_product', $data->id)->get()->count();
-            }
-
-            $data->{"rating"} = round($rating, 1);
-        }
-
-
-        foreach ($rekomendasi as $data) {
-            $product_variant = ProductVariant::where('id_product', $data->id)->get();
-            $data->{"product_variant"} = $product_variant;
-
-            $rating = 0;
-            if (!ProductReview::where('id_product', $data->id)->get()->count() == 0) {
-                $rating = ProductReview::where('id_product', $data->id)->get()->sum('rating') / ProductReview::where('id_product', $data->id)->get()->count();
-            }
-
-            $data->{"rating"} = round($rating, 1);
-        }
+        $product = Product::where('type', '=', 'jual')->orderBy('created_at', 'desc')->offset(0)->limit(3)->get();
+        $installment = Product::where('type', '=', 'cicilan')->orderBy('created_at', 'desc')->offset(0)->limit(3)->get();
 
         return response()->json([
             'status' => 'success',
             'data' => [
                 'auction' => $auction,
-                'rekomendasi' => $rekomendasi
+                'product' => $product,
+                'installment' => $installment,
             ]
         ], 200);
     }
@@ -216,16 +194,27 @@ class ApiController extends Controller
             ], 404);
         }
 
-        $product_variant = ProductVariant::where('id_product', $id)->get();
-        $data->{"product_variant"} = $product_variant;
-
-        $rating = 0;
-        if (!ProductReview::where('id_product', $id)->get()->count() == 0) {
-            $rating = ProductReview::where('id_product', $id)->get()->sum('rating') / ProductReview::where('id_product', $id)->get()->count();
+        if($data->type = "jual"){
+            $product_review = ProductReview::where('id_product', $data->id)->get();
+            $data->{"product_review"} = $product_review;
         }
 
-        $data->{"rating"} = round($rating, 1);
+        if($data->type = "lelang"){
+            // get bid
+            $product_bid =  ProductBid::where('id_product', $data->id)->get();
+            $data->{"product_bid"} = $product_bid;
+        }
 
+        if($data->type = "cicilan"){
+            $user = User::find($request->user()->id);
+            $profiling = $user->profiling;
+            $monthly_pay = $data->installment_pay;
+            if($profiling >= $monthly_pay){
+                $data->{"statusBuy"} = true;
+            } else {
+                $data->{"statusBuy"} = false;
+            }
+        }
 
         return response()->json([
             'status' => 'success',
@@ -235,17 +224,27 @@ class ApiController extends Controller
 
     public function forum(Request $request)
     {
-        $post = Thread::all();
-        $news = Thread::all();
-        $tips = Education::all();
+        $thread = Thread::all();
 
         return response()->json([
             'status' => 'success',
-            'data' => [
-                'post' => $post,
-                'news' => $news,
-                'tips' => $tips,
-            ]
+            'data' => $thread
+        ], 200);
+    }
+
+    public function forum_detail(Request $request, $id)
+    {
+        $thread = Thread::find($id);
+        if (!$thread) {
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'Data not found',
+            ], 404);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $thread
         ], 200);
     }
 

@@ -100,7 +100,7 @@
                             <tr>
                                 <th>Bid Amount</th>
                                 <th>User</th>
-                                <th width="200px">Action</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>

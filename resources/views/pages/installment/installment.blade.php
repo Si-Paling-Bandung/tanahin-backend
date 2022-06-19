@@ -13,7 +13,19 @@
                 },
                 columns: [{
                         data: 'photo',
-                        name: 'photo'
+                        name: 'photo',
+                        orderable: false,
+                        searchable: false,
+                    }, {
+                        data: 'photo_drone',
+                        name: 'photo_drone',
+                        orderable: false,
+                        searchable: false,
+                    }, {
+                        data: 'photo_denah',
+                        name: 'photo_denah',
+                        orderable: false,
+                        searchable: false,
                     }, {
                         data: 'category',
                         name: 'category'
@@ -112,14 +124,16 @@
                     <table class="table table-bordered data-table">
                         <thead>
                             <tr>
-                                <th>Photo</th>
+                                <th>Photo Product</th>
+                                <th>Photo Drone View</th>
+                                <th>Photo Map View</th>
                                 <th>Category</th>
                                 <th>Name</th>
                                 <th>Price</th>
                                 <th>Monthly Pay</th>
                                 <th>Front Payment</th>
                                 <th>Tenor Month</th>
-                                <th width="200px">Action</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>

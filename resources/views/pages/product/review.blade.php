@@ -99,7 +99,7 @@
                             <tr>
                                 <th>Rating</th>
                                 <th>Review</th>
-                                <th width="200px">Action</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>

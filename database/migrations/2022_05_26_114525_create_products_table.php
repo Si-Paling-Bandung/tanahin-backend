@@ -31,6 +31,8 @@ class CreateProductsTable extends Migration
             $table->text('dp')->nullable();
             $table->text('tenor')->nullable();
             $table->text('photo');
+            $table->text('photo_drone');
+            $table->text('photo_denah');
             $table->string('status')->default('publish');
             $table->timestamps();
             $table->softDeletes();

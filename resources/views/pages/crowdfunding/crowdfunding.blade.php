@@ -13,7 +13,19 @@
                 },
                 columns: [{
                         data: 'photo',
-                        name: 'photo'
+                        name: 'photo',
+                        orderable: false,
+                        searchable: false,
+                    }, {
+                        data: 'photo_drone',
+                        name: 'photo_drone',
+                        orderable: false,
+                        searchable: false,
+                    }, {
+                        data: 'photo_denah',
+                        name: 'photo_denah',
+                        orderable: false,
+                        searchable: false,
                     }, {
                         data: 'category',
                         name: 'category'
@@ -107,11 +119,13 @@
                         <thead>
                             <tr>
                                 <th>Auction Post Cover Image</th>
+                                <th>Photo Drone View</th>
+                                <th>Photo Map View</th>
                                 <th>Category</th>
                                 <th>Auction Post Title</th>
                                 <th>Lastest Bid</th>
                                 <th>Deadline</th>
-                                <th width="200px">Action</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>

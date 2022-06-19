@@ -126,13 +126,28 @@
                                             value="{{ old('deadline') }}" name="deadline" required autofocus>
                                     </div>
 
-
                                     <div class="form-group">
-                                        <label class="form-control-label" for="photo">{{ __('Photo') }}<span
+                                        <label class="form-control-label" for="photo">{{ __('Photo Product') }}<span
                                                 class="small text-danger">*</span></label>
                                         <input type="file" class="form-control form-control-Product" title="photo"
                                             placeholder="{{ __('photo') }}" value="{{ old('photo') }}"
                                             name="photo" required autofocus>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="photo_drone">{{ __('Photo Drone View') }}<span
+                                                class="small text-danger">*</span></label>
+                                        <input type="file" class="form-control form-control-Product" title="photo_drone"
+                                            placeholder="{{ __('photo_drone') }}" value="{{ old('photo_drone') }}"
+                                            name="photo_drone" required autofocus>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="photo_denah">{{ __('Photo Map View') }}<span
+                                                class="small text-danger">*</span></label>
+                                        <input type="file" class="form-control form-control-Product" title="photo_denah"
+                                            placeholder="{{ __('photo_denah') }}" value="{{ old('photo_denah') }}"
+                                            name="photo_denah" required autofocus>
                                     </div>
 
                                 </div>
